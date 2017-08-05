@@ -192,7 +192,7 @@ public class StudentsJNDIDAO implements StudentsDAO_interface {
 					studentsVO.setStu_mail(rs.getString("Stu_MAIL"));
 					studentsVO.setStu_into(rs.getString("Stu_INTO"));
 					studentsVO.setStu_pic(rs.getBytes("Stu_PIC"));
-					studentsVO.setStu_pic(rs.getBytes("Stu_PFT"));
+					studentsVO.setStu_pic(rs.getBytes("Stu_STO"));
 				}
 
 				// Handle any driver errors
@@ -252,7 +252,8 @@ public class StudentsJNDIDAO implements StudentsDAO_interface {
 					studentsVO.setStu_mail(rs.getString("Stu_MAIL"));
 					studentsVO.setStu_into(rs.getString("Stu_INTO"));
 					studentsVO.setStu_pic(rs.getBytes("Stu_PIC"));
-					studentsVO.setStu_pic(rs.getBytes("Stu_PFT"));
+					studentsVO.setStu_pic(rs.getBytes("Stu_STO"));
+					studentslist.add(studentsVO);
 				}
 
 				// Handle any driver errors

@@ -29,18 +29,18 @@ public class TestCoachesJDBCDAO {
 //	}
 	
 	//修改
-		CoachesVO coachesVO2 = new CoachesVO();
-		coachesVO2.setCoa_acc("CoachK99");
-		coachesVO2.setCoa_no(1);
-		coachesVO2.setCoa_psw("KD2");
-		coachesVO2.setCoa_name("K教練123");
-		coachesVO2.setCoa_mail("CoachK87@gmail.com");
-		coachesVO2.setCoa_into("包你籃球變很強666");
-		coachesVO2.setCoa_pic(null);
-		coachesVO2.setCoa_pft(77.88);
-		dao.update(coachesVO2);
-		System.out.println("689");
-	}
+//		CoachesVO coachesVO2 = new CoachesVO();
+//		coachesVO2.setCoa_acc("CoachK99");
+//		coachesVO2.setCoa_no(1);
+//		coachesVO2.setCoa_psw("KD2");
+//		coachesVO2.setCoa_name("K教練123");
+//		coachesVO2.setCoa_mail("CoachK87@gmail.com");
+//		coachesVO2.setCoa_into("包你籃球變很強666");
+//		coachesVO2.setCoa_pic(null);
+//		coachesVO2.setCoa_pft(77.88);
+//		dao.update(coachesVO2);
+//		System.out.println("689");
+//	}
 
 
 //
@@ -64,21 +64,21 @@ public class TestCoachesJDBCDAO {
 		
 
 		// 查詢
-//		List<CoachesVO> list = dao.getAll();
-//		for (CoachesVO aCoaches : list){
-//			System.out.println(aCoaches.getCoa_acc() + ",");
-//			System.out.println(aCoaches.getCoa_no() + ",");
-//			System.out.println(aCoaches.getCoa_psw() + ",");
-//			System.out.println(aCoaches.getCoa_sta() + ",");
-//			System.out.println(aCoaches.getCoa_name() + ",");
-//			System.out.println(aCoaches.getCoa_sex() + ",");
-//			System.out.println(aCoaches.getCoa_id() + ",");
-//			System.out.println(aCoaches.getCoa_mail() + ",");
-//			System.out.println(aCoaches.getCoa_into() + ",");
-//			System.out.println(aCoaches.getCoa_pic() + ",");
-//			System.out.println(aCoaches.getCoa_pft() + ",");
-//			System.out.println();
-//		}}
+		List<CoachesVO> list = dao.getAll();
+		for (CoachesVO aCoaches : list){
+			System.out.println(aCoaches.getCoa_acc() + ",");
+			System.out.println(aCoaches.getCoa_no() + ",");
+			System.out.println(aCoaches.getCoa_psw() + ",");
+			System.out.println(aCoaches.getCoa_sta() + ",");
+			System.out.println(aCoaches.getCoa_name() + ",");
+			System.out.println(aCoaches.getCoa_sex() + ",");
+			System.out.println(aCoaches.getCoa_id() + ",");
+			System.out.println(aCoaches.getCoa_mail() + ",");
+			System.out.println(aCoaches.getCoa_into() + ",");
+			System.out.println(aCoaches.getCoa_pic() + ",");
+			System.out.println(aCoaches.getCoa_pft() + ",");
+			System.out.println();
+		}}
 		
 		public static byte[] getPictureByteArray(String path) throws IOException {
 			File file = new File(path);

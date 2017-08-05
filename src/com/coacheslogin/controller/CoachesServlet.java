@@ -1,4 +1,4 @@
-package com.members.login;
+package com.coacheslogin.controller;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,20 +14,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.coacheslogin.model.CoachesJDBCDAO;
+import com.coacheslogin.model.CoachesJNDIDAO;
+import com.coacheslogin.model.CoachesService;
+import com.coacheslogin.model.CoachesVO;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 @SuppressWarnings("serial")
-@WebServlet("/MembersServlet")
-public class MembersServlet extends HttpServlet {
+@WebServlet("/CoachesServlet")
+public class CoachesServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final static String CONTENT_TYPE = "text/html; charset=UTF-8";
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		MembersJNDIDAO membersDao = new MembersJNDIDAO();
-		List<MembersVO> membersList = membersDao.getAll();
-		writeText(response, new Gson().toJson(membersList));
+//		CoachesJDBCDAO coachesDao = new CoachesJDBCDAO();
+		CoachesJNDIDAO coachesDao = new CoachesJNDIDAO();
+		List<CoachesVO> coachesList = coachesDao.getAll();
+		writeText(response, new Gson().toJson(coachesList));
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -42,18 +47,18 @@ public class MembersServlet extends HttpServlet {
 		}
 		JsonObject jsonObject = gson.fromJson(jsonIn.toString(),
 				JsonObject.class);
-		MembersJNDIDAO membersDao = new MembersJNDIDAO();
+		CoachesJNDIDAO coachesDao = new CoachesJNDIDAO();
 		String action = jsonObject.get("action").getAsString();
 		
-		MembersService mbs = new MembersService();
-		List<MembersVO> mbrs = mbs.getAll();
+		CoachesService coas = new CoachesService();
+		List<CoachesVO> c = coas.getAll();
 		
 		
 		System.out.println("action: " + action);
 
 		if (action.equals("getAll")) {
-			List<MembersVO> membersList = membersDao.getAll();
-			writeText(response, gson.toJson(membersList));
+			List<CoachesVO> coachesList = coachesDao.getAll();
+			writeText(response, gson.toJson(coachesList));
 		}
 	}
 
