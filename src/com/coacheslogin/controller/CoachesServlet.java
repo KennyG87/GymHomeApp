@@ -47,19 +47,24 @@ public class CoachesServlet extends HttpServlet {
 		}
 		JsonObject jsonObject = gson.fromJson(jsonIn.toString(),
 				JsonObject.class);
-		CoachesJNDIDAO coachesDao = new CoachesJNDIDAO();
+		CoachesService coas = new CoachesService();
 		String action = jsonObject.get("action").getAsString();
 		
-		CoachesService coas = new CoachesService();
-		List<CoachesVO> c = coas.getAll();
+		if (action.equals("getAll")) {
+			List<CoachesVO> coachesList = coas.getAll();
+			writeText(response, gson.toJson(coachesList));
+		}
+		
+		//CoachesService coas = new CoachesService();
+//		List<CoachesVO> c = coas.getAll();
+		
+		
+		
 		
 		
 		System.out.println("action: " + action);
 
-		if (action.equals("getAll")) {
-			List<CoachesVO> coachesList = coachesDao.getAll();
-			writeText(response, gson.toJson(coachesList));
-		}
+		
 	}
 
 	private void writeText(HttpServletResponse response, String outText)

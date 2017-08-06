@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.coacheslogin.model.CoachesService;
+import com.coacheslogin.model.CoachesVO;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.studentslogin.model.StudentsJNDIDAO;
@@ -44,19 +46,15 @@ public class StudentsServlet extends HttpServlet {
 		}
 		JsonObject jsonObject = gson.fromJson(jsonIn.toString(),
 				JsonObject.class);
-		StudentsJNDIDAO studentsDao = new StudentsJNDIDAO();
+		StudentsService stus = new StudentsService();
 		String action = jsonObject.get("action").getAsString();
 		
-		StudentsService stus = new StudentsService();
-		List<StudentsVO> s = stus.getAll();
-		
-		
+		if (action.equals("getAll")) {
+			List<StudentsVO> studentsList = stus.getAll();
+			writeText(response, gson.toJson(studentsList));
+		}	
 		System.out.println("action: " + action);
 
-		if (action.equals("getAll")) {
-			List<StudentsVO> studentsList = studentsDao.getAll();
-			writeText(response, gson.toJson(studentsList));
-		}
 	}
 
 	private void writeText(HttpServletResponse response, String outText)
