@@ -1,4 +1,4 @@
-package com.members.login;
+package com.members.controller;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,6 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.members.login.MembersJNDIDAO;
+import com.members.login.MembersService;
+import com.members.login.MembersVO;
 
 @SuppressWarnings("serial")
 @WebServlet("/MembersServlet")
