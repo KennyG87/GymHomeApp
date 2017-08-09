@@ -2,12 +2,14 @@ package com.studentslogin.model;
 
 import java.util.List;
 
+import com.coacheslogin.model.CoachesVO;
+
 public class StudentsService {
 
 	private StudentsDAO_interface dao;
 	
 	public StudentsService(){
-		dao = new StudentsJDBCDAO();
+		dao = new StudentsJNDIDAO();
 	}
 	
 	public StudentsVO addStudents(String stu_acc, int stu_no, String stu_psw, int stu_acc_sta, 
@@ -58,13 +60,25 @@ public class StudentsService {
 		dao.delete(Stu_no);
 	}
 	
-	public StudentsVO getOneStudents(String stu_acc){
+	public StudentsVO findByPK(String stu_acc){
 		return dao.findByPK(stu_acc);
 	}
 	
 	public List<StudentsVO> getAll(){
 		return dao.getAll();
 	}
+
+	public StudentsVO findStudentsByUser(String username, String password) {
+		// TODO Auto-generated method stub
+		return dao.findStudentsByUser(username , password);
+	}
+
+	public CoachesVO findCoachesByUser(String username, String password) {
+		// TODO Auto-generated method stub
+		return dao.findCoachesByUser(username , password);
+	}
+
+
 
 //	private byte[] getPictureByteArray() {
 //		return null;

@@ -2,6 +2,8 @@ package com.coacheslogin.model;
 
 import java.util.List;
 
+import com.studentslogin.model.StudentsVO;
+
 public class CoachesService {
 
 	private CoachesDAO_interface dao;
@@ -58,7 +60,7 @@ public class CoachesService {
 		dao.delete(Coa_no);
 	}
 	
-	public CoachesVO getOneCoaches(String coa_acc){
+	public CoachesVO findByPK(String coa_acc){
 		return dao.findByPK(coa_acc);
 	}
 	
@@ -70,7 +72,15 @@ public class CoachesService {
 		return null;
 	}
 
+	public StudentsVO findStudentsByUser(String username, String password) {
+		// TODO Auto-generated method stub
+		return dao.findStudentsByUser(username , password);
+	}
 
+	public CoachesVO findCoachesByUser(String username, String password) {
+		// TODO Auto-generated method stub
+		return dao.findCoachesByUser(username , password);
+	}
 	
 	
 }

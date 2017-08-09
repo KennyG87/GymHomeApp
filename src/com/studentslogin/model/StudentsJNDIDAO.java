@@ -12,6 +12,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import com.coacheslogin.model.CoachesVO;
+
 public class StudentsJNDIDAO implements StudentsDAO_interface {
 
 	// 一個應用程式中,針對一個資料庫 ,共用一個DataSource即可
@@ -29,7 +31,8 @@ public class StudentsJNDIDAO implements StudentsDAO_interface {
 	INSERT = "INSERT INTO STUDENTS(STU_ACC, STU_NO, STU_PSW, STU_ACC_STA, STU_NAME, STU_SEX, STU_ID, STU_MAIL, STU_INTO, STU_PIC, STU_STO) VALUES(?, STUDENTS_NO_SEQ.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String UPDATE = "UPDATE STUDENTS SET STU_ACC = ?, STU_PSW = ?, STU_NAME = ?, STU_MAIL = ?, STU_INTO= ?, STU_PIC = ?, STU_STO = ? WHERE STU_NO = ?";
 	private static final String DELETE = "DELETE FROM STUDENTS WHERE STU_NO = ?";
-	private static final String FIND_BY_PK = "SELECT * FROM STUDENTS WHERE STU_NO = ?";
+	private static final String FIND_BY_PK = "SELECT * FROM STUDENTS WHERE STU_ACC = ?";
+	private static final String FIND_BY_USER = "SELECT * FROM STUDENTS WHERE STU_ACC = ? AND STU_PSW = ?";
 	private static final String GET_ALL = "SELECT * FROM STUDENTS";
 
 		@Override
@@ -225,6 +228,68 @@ public class StudentsJNDIDAO implements StudentsDAO_interface {
 			}
 			return studentsVO;
 		}
+		
+		@Override
+		public StudentsVO findStudentsByUser(String username, String password) {
+			StudentsVO studentsVO = null;
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+
+			try {
+
+				con = ds.getConnection();
+				pstmt = con.prepareStatement(FIND_BY_USER);
+
+				pstmt.setString(1, username);
+				pstmt.setString(2, password);
+
+				rs = pstmt.executeQuery();
+				while (rs.next()) {
+					studentsVO = new StudentsVO();
+					studentsVO.setStu_acc(rs.getString("Stu_ACC"));
+					studentsVO.setStu_no(rs.getInt("Stu_NO"));
+					studentsVO.setStu_psw(rs.getString("Stu_PSW"));
+					studentsVO.setStu_acc_sta(rs.getInt("Stu_ACC_STA"));
+					studentsVO.setStu_name(rs.getString("Stu_NAME"));
+					studentsVO.setStu_sex(rs.getInt("Stu_SEX"));
+					studentsVO.setStu_id(rs.getString("Stu_ID"));
+					studentsVO.setStu_mail(rs.getString("Stu_MAIL"));
+					studentsVO.setStu_into(rs.getString("Stu_INTO"));
+					studentsVO.setStu_pic(rs.getBytes("Stu_PIC"));
+					studentsVO.setStu_pic(rs.getBytes("Stu_STO"));
+				}
+
+				// Handle any driver errors
+			} catch (SQLException se) {
+				throw new RuntimeException("A database error occured. "
+						+ se.getMessage());
+				// Clean up JDBC resources
+			} finally {
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException se) {
+						se.printStackTrace(System.err);
+					}
+				}
+				if (pstmt != null) {
+					try {
+						pstmt.close();
+					} catch (SQLException se) {
+						se.printStackTrace(System.err);
+					}
+				}
+				if (con != null) {
+					try {
+						con.close();
+					} catch (Exception e) {
+						e.printStackTrace(System.err);
+					}
+				}
+			}
+			return studentsVO;
+		}
 
 		@Override
 		public List<StudentsVO> getAll() {
@@ -300,5 +365,11 @@ public class StudentsJNDIDAO implements StudentsDAO_interface {
 			fis.close();
 
 			return baos.toByteArray();
+		}
+
+		@Override
+		public CoachesVO findCoachesByUser(String username, String password) {
+			// TODO Auto-generated method stub
+			return null;
 		}
 }

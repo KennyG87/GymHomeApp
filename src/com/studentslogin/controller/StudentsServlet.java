@@ -13,8 +13,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.coacheslogin.model.CoachesJNDIDAO;
 import com.coacheslogin.model.CoachesService;
 import com.coacheslogin.model.CoachesVO;
+import com.coacheslogin.model.MemberCoach;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.studentslogin.model.StudentsJNDIDAO;
@@ -26,10 +28,12 @@ import com.studentslogin.model.StudentsVO;
 public class StudentsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final static String CONTENT_TYPE = "text/html; charset=UTF-8";
-
+	private MemberCoach memberCoach;
+	StudentsJNDIDAO studentsDao = new StudentsJNDIDAO();
+	CoachesJNDIDAO coachesDao = new CoachesJNDIDAO();
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		StudentsJNDIDAO studentsDao = new StudentsJNDIDAO();
+		
 		List<StudentsVO> studentsList = studentsDao.getAll();
 		writeText(response, new Gson().toJson(studentsList));
 	}
@@ -41,19 +45,37 @@ public class StudentsServlet extends HttpServlet {
 		BufferedReader br = request.getReader();
 		StringBuilder jsonIn = new StringBuilder();
 		String line = "";
+		System.out.println("1111111111");
 		while ((line = br.readLine()) != null) {
 			jsonIn.append(line);
 		}
 		JsonObject jsonObject = gson.fromJson(jsonIn.toString(),
 				JsonObject.class);
+		System.out.println("22222222222");
 		StudentsService stus = new StudentsService();
-		String action = jsonObject.get("action").getAsString();
+		CoachesService coas = new CoachesService();
+		String role = jsonObject.get("role").getAsString();
+		String username = jsonObject.get("username").getAsString();
+		String password = jsonObject.get("password").getAsString();
+		StudentsVO student=null;
+		CoachesVO coach = null;
+		String string = "";
+				
+		if (role.equals("stu")) {
+			student = stus.findStudentsByUser(username, password);
+//			string = gson.toJson(student);
+		}	else {
+			coach = coas.findCoachesByUser(username, password);
+			}
+			memberCoach = new MemberCoach(student,coach);
+			string = gson.toJson(memberCoach);
+			
+//		}
 		
-		if (action.equals("getAll")) {
-			List<StudentsVO> studentsList = stus.getAll();
-			writeText(response, gson.toJson(studentsList));
-		}	
-		System.out.println("action: " + action);
+		response.setContentType(CONTENT_TYPE);
+		PrintWriter out = response.getWriter();
+		out.println(string);
+		
 
 	}
 

@@ -20,6 +20,8 @@ import com.coacheslogin.model.CoachesService;
 import com.coacheslogin.model.CoachesVO;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.studentslogin.model.StudentsJNDIDAO;
+import com.studentslogin.model.StudentsVO;
 
 @SuppressWarnings("serial")
 @WebServlet("/CoachesServlet")
@@ -29,7 +31,7 @@ public class CoachesServlet extends HttpServlet {
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-//		CoachesJDBCDAO coachesDao = new CoachesJDBCDAO();
+		StudentsJNDIDAO studentsDao = new StudentsJNDIDAO();
 		CoachesJNDIDAO coachesDao = new CoachesJNDIDAO();
 		List<CoachesVO> coachesList = coachesDao.getAll();
 		writeText(response, new Gson().toJson(coachesList));
@@ -48,23 +50,21 @@ public class CoachesServlet extends HttpServlet {
 		JsonObject jsonObject = gson.fromJson(jsonIn.toString(),
 				JsonObject.class);
 		CoachesService coas = new CoachesService();
-		String action = jsonObject.get("action").getAsString();
-		
-		if (action.equals("getAll")) {
-			List<CoachesVO> coachesList = coas.getAll();
-			writeText(response, gson.toJson(coachesList));
-		}
-		
-		//CoachesService coas = new CoachesService();
-//		List<CoachesVO> c = coas.getAll();
-		
-		
-		
-		
-		
-		System.out.println("action: " + action);
+		String role = jsonObject.get("role").getAsString();
+		String username = jsonObject.get("username").getAsString();
+		String password = jsonObject.get("password").getAsString();
+
 
 		
+		if (role.equals("coa")) {
+			CoachesVO coach = coas.findCoachesByUser(username, password);
+		}	else {
+			StudentsVO student = stus.findStudentsByUser(username, password);
+		}
+		writeText(response, gson.toJson(jsonObject));
+
+		System.out.println("action: " + role + username + password);
+
 	}
 
 	private void writeText(HttpServletResponse response, String outText)

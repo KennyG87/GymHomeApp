@@ -12,6 +12,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import com.studentslogin.model.StudentsVO;
+
 public class CoachesJNDIDAO implements CoachesDAO_interface {
 
 	// 一個應用程式中,針對一個資料庫 ,共用一個DataSource即可
@@ -30,6 +32,7 @@ public class CoachesJNDIDAO implements CoachesDAO_interface {
 	private static final String UPDATE = "UPDATE COACHES SET COA_ACC = ?, COA_PSW = ?, COA_NAME = ?, COA_MAIL = ?, COA_INTO= ?, COA_PIC = ?, COA_PFT = ? WHERE COA_NO = ?";
 	private static final String DELETE = "DELETE FROM COACHES WHERE COA_NO = ?";
 	private static final String FIND_BY_PK = "SELECT * FROM COACHES WHERE COA_ACC = ?";
+	private static final String FIND_BY_USER = "SELECT * FROM COACHES WHERE COA_ACC = ? AND COA_PSW = ?";
 	private static final String GET_ALL = "SELECT * FROM COACHES";
 
 		@Override
@@ -225,6 +228,69 @@ public class CoachesJNDIDAO implements CoachesDAO_interface {
 			}
 			return coachesVO;
 		}
+		
+		@Override
+		public CoachesVO findCoachesByUser(String username, String password) {
+			CoachesVO coachesVO = null;
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+
+			try {
+
+				con = ds.getConnection();
+				pstmt = con.prepareStatement(FIND_BY_USER);
+
+				pstmt.setString(1, username);
+				pstmt.setString(2, password);
+
+				rs = pstmt.executeQuery();
+
+				while (rs.next()) {
+					coachesVO = new CoachesVO();
+					coachesVO.setCoa_acc(rs.getString("COA_ACC"));
+					coachesVO.setCoa_no(rs.getInt("COA_NO"));
+					coachesVO.setCoa_psw(rs.getString("COA_PSW"));
+					coachesVO.setCoa_sta(rs.getInt("COA_STA"));
+					coachesVO.setCoa_name(rs.getString("COA_NAME"));
+					coachesVO.setCoa_sex(rs.getInt("COA_SEX"));
+					coachesVO.setCoa_id(rs.getString("COA_ID"));
+					coachesVO.setCoa_mail(rs.getString("COA_MAIL"));
+					coachesVO.setCoa_into(rs.getString("COA_INTO"));
+					coachesVO.setCoa_pic(rs.getBytes("COA_PIC"));
+					coachesVO.setCoa_pic(rs.getBytes("COA_PFT"));
+				}
+
+				// Handle any driver errors
+			} catch (SQLException se) {
+				throw new RuntimeException("A database error occured. "
+						+ se.getMessage());
+				// Clean up JDBC resources
+			} finally {
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException se) {
+						se.printStackTrace(System.err);
+					}
+				}
+				if (pstmt != null) {
+					try {
+						pstmt.close();
+					} catch (SQLException se) {
+						se.printStackTrace(System.err);
+					}
+				}
+				if (con != null) {
+					try {
+						con.close();
+					} catch (Exception e) {
+						e.printStackTrace(System.err);
+					}
+				}
+			}
+			return coachesVO;
+		}
 
 		@Override
 		public List<CoachesVO> getAll() {
@@ -300,5 +366,11 @@ public class CoachesJNDIDAO implements CoachesDAO_interface {
 			fis.close();
 
 			return baos.toByteArray();
+		}
+
+		@Override
+		public StudentsVO findStudentsByUser(String username, String password) {
+			// TODO Auto-generated method stub
+			return null;
 		}
 }
