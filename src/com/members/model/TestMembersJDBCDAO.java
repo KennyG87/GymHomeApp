@@ -1,4 +1,4 @@
-package com.members.login;
+package com.members.model;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,7 +10,7 @@ public class TestMembersJDBCDAO {
 	public static void main(String[] args) throws IOException {
 		MembersJDBCDAO dao = new MembersJDBCDAO();
 
-		// ?–°å¢?
+		// ?ï¿½ï¿½ï¿½?
 //		MembersVO membersVO1 = new MembersVO();
 //		membersVO1.setMem_acc("XXX");
 //		membersVO1.setMem_rank("2");
@@ -32,10 +32,10 @@ public class TestMembersJDBCDAO {
 		System.out.println("888");
 	}
 //
-//		// ?ˆª?™¤
+//		// ?ï¿½ï¿½?ï¿½ï¿½
 //		dao.delete(1);
 //
-//		// ?Ÿ¥è©?
+//		// ?ï¿½ï¿½ï¿½?
 //		MembersVO membersVO3 = dao.findByPK("mem01");
 //		System.out.println(membersVO3.getMem_acc() + ",");
 //		System.out.println(membersVO3.getMem_no() + ",");
@@ -44,7 +44,7 @@ public class TestMembersJDBCDAO {
 //		System.out.println("---------------------");
 //		
 //
-//		// ?Ÿ¥è©?
+//		// ?ï¿½ï¿½ï¿½?
 //		List<MembersVO> list = dao.getAll();
 //		for (MembersVO aMembers : list){
 //			System.out.println(aMembers.getMem_acc() + ",");

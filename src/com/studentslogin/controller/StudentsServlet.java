@@ -31,6 +31,7 @@ public class StudentsServlet extends HttpServlet {
 	private MemberCoach memberCoach;
 	StudentsJNDIDAO studentsDao = new StudentsJNDIDAO();
 	CoachesJNDIDAO coachesDao = new CoachesJNDIDAO();
+
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		

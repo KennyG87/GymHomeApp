@@ -1,4 +1,4 @@
-package com.members.login;
+package com.members.model;
 
 import java.io.Serializable;
 

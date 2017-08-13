@@ -2,6 +2,8 @@ package com.studentslogin.model;
 
 import java.util.*;
 
+import com.coacheslogin.model.CoachesVO;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -311,6 +313,18 @@ public class StudentsJDBCDAO implements StudentsDAO_interface {
 		fis.close();
 
 		return baos.toByteArray();
+	}
+
+	@Override
+	public StudentsVO findStudentsByUser(String username, String password) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public CoachesVO findCoachesByUser(String username, String password) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
 

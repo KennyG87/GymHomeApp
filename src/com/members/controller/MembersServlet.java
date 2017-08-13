@@ -14,21 +14,27 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.coacheslogin.model.CoachesService;
+import com.coacheslogin.model.CoachesVO;
+import com.coacheslogin.model.MemberCoach;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.members.login.MembersJNDIDAO;
-import com.members.login.MembersService;
-import com.members.login.MembersVO;
+import com.members.model.MembersJNDIDAO;
+import com.members.model.MembersService;
+import com.members.model.MembersVO;
+import com.studentslogin.model.StudentsService;
+import com.studentslogin.model.StudentsVO;
 
 @SuppressWarnings("serial")
 @WebServlet("/MembersServlet")
 public class MembersServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final static String CONTENT_TYPE = "text/html; charset=UTF-8";
-
+	MembersJNDIDAO membersDao = new MembersJNDIDAO();
+	
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		MembersJNDIDAO membersDao = new MembersJNDIDAO();
+
 		List<MembersVO> membersList = membersDao.getAll();
 		writeText(response, new Gson().toJson(membersList));
 	}
@@ -40,24 +46,42 @@ public class MembersServlet extends HttpServlet {
 		BufferedReader br = request.getReader();
 		StringBuilder jsonIn = new StringBuilder();
 		String line = "";
+		System.out.println("AAAAAAAAAAAA");
 		while ((line = br.readLine()) != null) {
 			jsonIn.append(line);
 		}
 		JsonObject jsonObject = gson.fromJson(jsonIn.toString(),
 				JsonObject.class);
-		MembersJNDIDAO membersDao = new MembersJNDIDAO();
-		String action = jsonObject.get("action").getAsString();
-		
-		MembersService mbs = new MembersService();
-		List<MembersVO> mbrs = mbs.getAll();
-		
-		
-		System.out.println("action: " + action);
+		System.out.println("BBBBBBBBBBB");
 
-		if (action.equals("getAll")) {
-			List<MembersVO> membersList = membersDao.getAll();
-			writeText(response, gson.toJson(membersList));
+		MembersService mems = new MembersService();
+		String role = jsonObject.get("role").getAsString();
+		
+		String mem_acc = jsonObject.get("mem_acc").getAsString();
+
+
+
+		MembersVO member=null;
+
+		String string = "";
+				
+		if (role.equals("0")) {
+			member = mems.insert(mem_acc);
+			string = gson.toJson(member);
+			
+//		}	else {
+//			coach = coas.findCoachesByUser(username, password);
+//			}
+//			memberCoach = new MemberCoach(student,coach);
+//			string = gson.toJson(memberCoach);
+			
 		}
+		
+		response.setContentType(CONTENT_TYPE);
+		PrintWriter out = response.getWriter();
+		out.println(string);
+		
+
 	}
 
 	private void writeText(HttpServletResponse response, String outText)

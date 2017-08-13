@@ -1,4 +1,4 @@
-package com.members.login;
+package com.members.model;
 
 import java.util.*;
 import java.io.ByteArrayOutputStream;
@@ -14,7 +14,7 @@ import javax.sql.DataSource;
 
 public class MembersJNDIDAO implements MembersDAO_interface {
 
-	// ä¸??‹æ?‰ç”¨ç¨‹å?ä¸­,??å?ä??‹è?‡æ?™åº« ,?…±?”¨ä¸??‹DataSource?³?¯
+	// ï¿½??ï¿½ï¿½?ï¿½ç”¨ç¨‹ï¿½?ï¿½ä¸­,??ï¿½ï¿½?ï¿½ï¿½??ï¿½ï¿½?ï¿½ï¿½?ï¿½åº« ,?ï¿½ï¿½?ï¿½ï¿½ï¿½??ï¿½DataSource?ï¿½ï¿½?ï¿½ï¿½
 	private static DataSource ds = null;
 	static {
 		try {
@@ -259,4 +259,6 @@ public class MembersJNDIDAO implements MembersDAO_interface {
 			}
 			return memberslist;
 		}
+
+
 }

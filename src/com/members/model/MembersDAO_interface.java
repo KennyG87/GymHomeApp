@@ -1,4 +1,4 @@
-package com.members.login;
+package com.members.model;
 
 import java.util.List;
 
@@ -9,6 +9,7 @@ public interface MembersDAO_interface {
 	public MembersVO findByPK(String mem_acc);
 	public List<MembersVO> getAll();
 	
-//	?¬?”¨è¤‡å?ˆæŸ¥è©?(?‚³?…¥??ƒæ•¸??‹æ?‹Map)(??å‚³ List)
+	
+//	?ï¿½ï¿½?ï¿½ï¿½è¤‡ï¿½?ï¿½æŸ¥ï¿½?(?ï¿½ï¿½?ï¿½ï¿½??ï¿½æ•¸??ï¿½ï¿½?ï¿½Map)(??ï¿½å‚³ List)
 //	public List<MembersVO> getAll(Map<String, String[]> map);
 }

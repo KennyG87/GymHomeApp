@@ -18,9 +18,11 @@ import com.coacheslogin.model.CoachesJDBCDAO;
 import com.coacheslogin.model.CoachesJNDIDAO;
 import com.coacheslogin.model.CoachesService;
 import com.coacheslogin.model.CoachesVO;
+import com.coacheslogin.model.MemberCoach;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.studentslogin.model.StudentsJNDIDAO;
+import com.studentslogin.model.StudentsService;
 import com.studentslogin.model.StudentsVO;
 
 @SuppressWarnings("serial")
@@ -28,11 +30,12 @@ import com.studentslogin.model.StudentsVO;
 public class CoachesServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final static String CONTENT_TYPE = "text/html; charset=UTF-8";
-
+	private MemberCoach memberCoach;
+	StudentsJNDIDAO studentsDao = new StudentsJNDIDAO();
+	CoachesJNDIDAO coachesDao = new CoachesJNDIDAO();
+	
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		StudentsJNDIDAO studentsDao = new StudentsJNDIDAO();
-		CoachesJNDIDAO coachesDao = new CoachesJNDIDAO();
 		List<CoachesVO> coachesList = coachesDao.getAll();
 		writeText(response, new Gson().toJson(coachesList));
 	}
@@ -44,27 +47,35 @@ public class CoachesServlet extends HttpServlet {
 		BufferedReader br = request.getReader();
 		StringBuilder jsonIn = new StringBuilder();
 		String line = "";
+		System.out.println("xxxxxxxxxx");
 		while ((line = br.readLine()) != null) {
 			jsonIn.append(line);
 		}
 		JsonObject jsonObject = gson.fromJson(jsonIn.toString(),
 				JsonObject.class);
+		System.out.println("yyyyyyyyyy");
+		StudentsService stus = new StudentsService();
 		CoachesService coas = new CoachesService();
 		String role = jsonObject.get("role").getAsString();
 		String username = jsonObject.get("username").getAsString();
 		String password = jsonObject.get("password").getAsString();
-
+		StudentsVO student=null;
+		CoachesVO coach = null;
+		String string = "";
 
 		
 		if (role.equals("coa")) {
-			CoachesVO coach = coas.findCoachesByUser(username, password);
+			coach = coas.findCoachesByUser(username, password);
 		}	else {
-			StudentsVO student = stus.findStudentsByUser(username, password);
+			student = stus.findStudentsByUser(username, password);
 		}
-		writeText(response, gson.toJson(jsonObject));
-
-		System.out.println("action: " + role + username + password);
-
+		memberCoach = new MemberCoach(student,coach);
+		string = gson.toJson(memberCoach);
+		
+		response.setContentType(CONTENT_TYPE);
+		PrintWriter out = response.getWriter();
+		out.println(string);
+		
 	}
 
 	private void writeText(HttpServletResponse response, String outText)
