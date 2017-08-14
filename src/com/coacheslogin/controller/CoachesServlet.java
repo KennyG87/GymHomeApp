@@ -75,7 +75,7 @@ public class CoachesServlet extends HttpServlet {
 		response.setContentType(CONTENT_TYPE);
 		PrintWriter out = response.getWriter();
 		out.println(string);
-		
+		System.out.println("zzzzzzzzzzzzzz");
 	}
 
 	private void writeText(HttpServletResponse response, String outText)

@@ -76,7 +76,7 @@ public class StudentsServlet extends HttpServlet {
 		response.setContentType(CONTENT_TYPE);
 		PrintWriter out = response.getWriter();
 		out.println(string);
-		
+		System.out.println("333333333333");
 
 	}
 
