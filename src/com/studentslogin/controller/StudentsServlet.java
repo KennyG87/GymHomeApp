@@ -58,24 +58,37 @@ public class StudentsServlet extends HttpServlet {
 		String role = jsonObject.get("role").getAsString();
 		String username = jsonObject.get("username").getAsString();
 		String password = jsonObject.get("password").getAsString();
+		
 		StudentsVO student=null;
 		CoachesVO coach = null;
 		String string = "";
 				
-		if (role.equals("stu")) {
+		if (role.equals("0")) {
 			student = stus.findStudentsByUser(username, password);
 //			string = gson.toJson(student);
+			
+		
+		
 		}	else {
 			coach = coas.findCoachesByUser(username, password);
 			}
-			memberCoach = new MemberCoach(student,coach);
-			string = gson.toJson(memberCoach);
 			
+		
+		
+		
+		
+		
+		memberCoach = new MemberCoach(student,coach);
+		string = gson.toJson(memberCoach);
+			
+		
 //		}
 		
-		response.setContentType(CONTENT_TYPE);
-		PrintWriter out = response.getWriter();
-		out.println(string);
+//		response.setContentType(CONTENT_TYPE);
+//		PrintWriter out = response.getWriter();
+//		out.println(string);
+		
+		
 		System.out.println("333333333333");
 
 	}
